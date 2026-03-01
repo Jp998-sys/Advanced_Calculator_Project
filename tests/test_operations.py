@@ -1,16 +1,22 @@
 import pytest
 from decimal import Decimal
-from app.operations import (add, subtract, multiply, divide,
-                             power, root, modulus, int_divide,
-                               percent, abs_diff)
+from app.operations import (
+    Add, Subtract, Multiply, Divide,
+    Power, Root, Modulus,
+    IntDivide, Percent, AbsDiff
+)
+
 def test_divide_by_zero():
+    op = Divide()
     with pytest.raises(ZeroDivisionError):
-        divide(5, 0)
+        op.execute(5, 0)
 
 def test_root_zero_degree():
+    op = Root()
     with pytest.raises(ValueError):
-        root(9, 0)
+        op.execute(9, 0)
 
 def test_percent_divide_zero():
+    op = Percent()
     with pytest.raises(ZeroDivisionError):
-        percent(5, 0)
+        op.execute(5, 0)

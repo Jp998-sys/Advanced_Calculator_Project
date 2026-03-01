@@ -1,42 +1,75 @@
+from abc import ABC, abstractmethod
 from decimal import Decimal
 
-def add(a, b):
-    return Decimal(a) + Decimal(b)
+class Operation(ABC):
+    @abstractmethod
+    def execute(self, a, b):
+        pass
 
-def subtract(a, b):
-    return Decimal(a) - Decimal(b)
+    def _to_decimal(self, value):
+        return Decimal(str(value))
 
-def multiply(a, b):
-    return Decimal(a) * Decimal(b)
 
-def divide(a, b):
-    if Decimal(b) == 0:
-        raise ZeroDivisionError("Cannot divide by zero")
-    return Decimal(a) / Decimal(b)
+class Add(Operation):
+    def execute(self, a, b):
+        return self._to_decimal(a) + self._to_decimal(b)
 
-def power(a, b):
-    return Decimal(a) ** Decimal(b)
 
-def root(a, b):
-    if Decimal(b) == 0:
-        raise ValueError("Root degree cannot be zero")
-    return Decimal(a) ** (Decimal(1) / Decimal(b))
+class Subtract(Operation):
+    def execute(self, a, b):
+        return self._to_decimal(a) - self._to_decimal(b)
 
-def modulus(a, b):
-    if Decimal(b) == 0:
-        raise ZeroDivisionError("Cannot mod by zero")
-    return Decimal(a) % Decimal(b)
 
-def int_divide(a, b):
-    if Decimal(b) == 0:
-        raise ZeroDivisionError("Cannot divide by zero")
-    return Decimal(a) // Decimal(b)
+class Multiply(Operation):
+    def execute(self, a, b):
+        return self._to_decimal(a) * self._to_decimal(b)
 
-def percent(a, b):
-    if Decimal(b) == 0:
-        raise ZeroDivisionError("Cannot divide by zero")
-    return (Decimal(a) / Decimal(b)) * Decimal(100)
 
-def abs_diff(a, b):
-    return abs(Decimal(a) - Decimal(b))
+class Divide(Operation):
+    def execute(self, a, b):
+        b = self._to_decimal(b)
+        if b == 0:
+            raise ZeroDivisionError("Cannot divide by zero")
+        return self._to_decimal(a) / b
 
+
+class Power(Operation):
+    def execute(self, a, b):
+        return self._to_decimal(a) ** self._to_decimal(b)
+
+
+class Root(Operation):
+    def execute(self, a, b):
+        b = self._to_decimal(b)
+        if b == 0:
+            raise ValueError("Root degree cannot be zero")
+        return self._to_decimal(a) ** (Decimal(1) / b)
+
+
+class Modulus(Operation):
+    def execute(self, a, b):
+        b = self._to_decimal(b)
+        if b == 0:
+            raise ZeroDivisionError("Cannot mod by zero")
+        return self._to_decimal(a) % b
+
+
+class IntDivide(Operation):
+    def execute(self, a, b):
+        b = self._to_decimal(b)
+        if b == 0:
+            raise ZeroDivisionError("Cannot divide by zero")
+        return self._to_decimal(a) // b
+
+
+class Percent(Operation):
+    def execute(self, a, b):
+        b = self._to_decimal(b)
+        if b == 0:
+            raise ZeroDivisionError("Cannot divide by zero")
+        return (self._to_decimal(a) / b) * Decimal(100)
+
+
+class AbsDiff(Operation):
+    def execute(self, a, b):
+        return abs(self._to_decimal(a) - self._to_decimal(b))
