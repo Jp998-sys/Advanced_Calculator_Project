@@ -73,3 +73,26 @@ class Percent(Operation):
 class AbsDiff(Operation):
     def execute(self, a, b):
         return abs(self._to_decimal(a) - self._to_decimal(b))
+    
+class OperationFactory:
+    _operations = {
+        "add": Add,
+        "subtract": Subtract,
+        "multiply": Multiply,
+        "divide": Divide,
+        "power": Power,
+        "root": Root,
+        "modulus": Modulus,
+        "int_divide": IntDivide,
+        "percent": Percent,
+        "abs_diff": AbsDiff,
+    }
+
+    @classmethod
+    def create(cls, operation_name):
+        operation_name = operation_name.lower()
+
+        if operation_name not in cls._operations:
+            raise ValueError(f"Invalid operation: {operation_name}")
+
+        return cls._operations[operation_name]()
