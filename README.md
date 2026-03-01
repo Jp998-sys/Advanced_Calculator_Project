@@ -1,4 +1,4 @@
-# Advanced Calculator Application
+# Advanced Calculator Project
 
 ## Overview
 This project is an advanced command-line calculator built using Python. 
