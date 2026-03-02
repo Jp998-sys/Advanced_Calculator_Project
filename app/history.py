@@ -13,9 +13,9 @@ class LoggingObserver(Observer):
 
 
 class AutoSaveObserver(Observer):
-    def __init__(self, calculator):
+    def __init__(self, calculator, filename = "history.csv"):
         self.calculator = calculator
+        self.filename = filename
 
     def update(self, calculation):
-        # Placeholder – real pandas save comes later
-        self.calculator._auto_save_triggered = True
+        self.calculator.save_history(self.filename)

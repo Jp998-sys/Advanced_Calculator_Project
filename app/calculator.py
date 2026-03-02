@@ -2,6 +2,7 @@ from app.calculator_memento import CalculatorMemento
 from app.history import Observer
 from app.calculation import Calculation
 from app.operations import OperationFactory 
+import pandas as pd
 
 class Calculator:
     def __init__(self):
@@ -66,3 +67,38 @@ class Calculator:
         # Notify Observer
         self.notify_observers(calculation)
         return result
+    def save_history(self, filename= "history.csv"):
+        if not self.history:
+            return False
+        data = []
+
+        for calc in self.history:
+            data.append({
+                "operation": calc.operation,
+                "a": calc.a,
+                "b": calc.b,
+                "result": calc.result,
+                "timestamp": calc.timestamp
+            })
+        df = pd.DataFrame(data)
+        df.to_csv(filename, index = False)
+
+        return True
+    def load_history(self, filename = "history.csv"):
+        try:
+            df = pd.read_csv(filename)
+
+            self.history.clear()
+
+            for _, row in df.iterrows():
+                calculation = Calculation(
+                    row["operation"],
+                    row["a"],
+                    row["b"],
+                    row["result"]
+                )
+                self.history.append(calculation)
+
+            return True
+        except FileNotFoundError:
+            return False

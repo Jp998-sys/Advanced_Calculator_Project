@@ -14,14 +14,15 @@ def test_remove_observer():
     calc.remove_observer(observer)
     assert observer not in calc.observers
 
+import os 
 def test_autosave_observer_trigger():
+    filename = "test_auto.csv"
     calc = Calculator()
-    observer = AutoSaveObserver(calc)
+    observer = AutoSaveObserver(calc, filename)
     calc.add_observer(observer)
-
-    calc.add_calculation("2 + 3 = 5")
-
-    assert calc._auto_save_triggered is True
+    calc.calculate("add", 2, 3)
+    assert os.path.exists(filename)
+    os.remove(filename)
 
 def test_calculate_add():
     calc = Calculator()
