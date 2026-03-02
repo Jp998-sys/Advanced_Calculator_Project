@@ -1,5 +1,7 @@
 from app.calculator_memento import CalculatorMemento
 from app.history import Observer
+from app.calculation import Calculation
+from app.operations import OperationFactory 
 
 class Calculator:
     def __init__(self):
@@ -43,3 +45,24 @@ class Calculator:
         memento = self.redo_stack.pop()
         self.history = memento.get_state()
         return True
+    def calculate(self, operation_name, a, b):
+        # Create operation using Factory
+        operation = OperationFactory.create(operation_name)
+
+        result = operation.execute(a, b)
+
+        # Create Calculation object
+        calculation = Calculation(operation_name, a, b, result)
+
+        #Save current state for undo
+        self.undo_stack.append(CalculatorMemento(self.history))
+
+        # Add to history 
+        self.history.append(calculation)
+
+        #Clear redo stack
+        self.redo_stack.clear()
+
+        # Notify Observer
+        self.notify_observers(calculation)
+        return result
