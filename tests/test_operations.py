@@ -29,3 +29,33 @@ def test_factory_returns_add():
 def test_factory_invalid_operation():
     with pytest.raises(ValueError):
         OperationFactory.create("unknown")
+
+from app.calculator import Calculator
+
+def test_add_calculation():
+    calc = Calculator()
+    calc.add_calculation("2 + 3 = 5")
+    assert len(calc.history) == 1
+
+def test_undo():
+    calc = Calculator()
+    calc.add_calculation("2 + 3 = 5")
+    result = calc.undo()
+    assert result is True
+    assert calc.history == []
+
+def test_redo():
+    calc = Calculator()
+    calc.add_calculation("2 + 3 = 5")
+    calc.undo()
+    result = calc.redo()
+    assert result is True
+    assert len(calc.history) == 1
+
+def test_undo_empty():
+    calc = Calculator()
+    assert calc.undo() is False
+
+def test_redo_empty():
+    calc = Calculator()
+    assert calc.redo() is False
