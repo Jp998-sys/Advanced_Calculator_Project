@@ -80,7 +80,7 @@ def main():
                 b = float(parts[2])
 
                 result = calc.calculate(operation, a, b)
-                print(f"Result: {result}")
+                print(calc.history[-1])
 
         except Exception as e:
             print(f"Error: {e}")

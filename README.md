@@ -31,10 +31,10 @@ pytest
 
 ## Example Usage
 Subtract 2 2
-Result: 0
+2.0 - 2.0 = 0.0
 
 History
-2 - 2 = 0
+2.0 - 2.0 = 0.0
 
 ## Add it to Github
 
