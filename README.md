@@ -30,7 +30,7 @@ python main.py
 pytest
 
 ## Example Usage
-Subtract 2 2
+Subtract 2 2   
 2.0 - 2.0 = 0.0
 
 History
