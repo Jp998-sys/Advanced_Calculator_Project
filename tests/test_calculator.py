@@ -43,3 +43,17 @@ def test_redo_after_calculate_add():
     calc.redo()
     assert len(calc.history) == 1
 
+import os
+from app.history import AutoSaveObserver
+
+
+def test_observer_trigger(tmp_path):
+    file_path = tmp_path / "auto.csv"
+
+    calc = Calculator()
+    observer = AutoSaveObserver(calc, str(file_path))
+    calc.add_observer(observer)
+
+    calc.calculate("add", 2, 3)
+
+    assert os.path.exists(file_path)

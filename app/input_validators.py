@@ -1,9 +1,9 @@
-from app.calculator_config import CalculatorConfig
+from app.input_validators import validate_number
+from app.exceptions import ValidationError
 
-class AutoSaveObserver(Observer):
-    def __init__(self, calculator):
-        self.calculator = calculator
+def test_validate_number_valid():
+    assert validate_number(10) == 10
 
-    def update(self, calculation):
-        if CalculatorConfig.AUTO_SAVE:
-            self.calculator.save_history()
+def test_validate_number_invalid():
+    with pytest.raises(ValidationError):
+        validate_number("abc")
