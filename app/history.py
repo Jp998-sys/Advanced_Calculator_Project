@@ -12,8 +12,10 @@ class LoggingObserver(Observer):
         logging.info(f"New calculation performed: {calculation}")
 
 
+from app.calculator_config import CalculatorConfig
+
 class AutoSaveObserver(Observer):
-    def __init__(self, calculator, filename = "history.csv"):
+    def __init__(self, calculator, filename=None):
         self.calculator = calculator
         self.filename = filename
 
